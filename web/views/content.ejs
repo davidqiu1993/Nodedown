@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= content %> - <%= user %> - Nodedown</title>
+</head>
+
+<body>
+  <div id="main">
+<%- mdcontent %>
+  </div>
+  
+  <br/>
+  <hr/>
+  <br/>
+
+  <b>Attachments:</b>
+  <ul>
+    <% for (var attachment in attachments) { %>
+    <li><a href="<%= attachments[attachment] %>"><%= attachment %></a></li>
+    <% } %>
+  </ul>
+</body>
+
+</html>

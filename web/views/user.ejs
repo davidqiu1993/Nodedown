@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= user %> - Nodedown</title>
+</head>
+<body>
+  <h1><%= user %>'s Contents</h1>
+  <ul>
+    <% for (var content in contents) { %>
+    <li><a href="<%= contents[content] %>"><%= content %></a></li>
+    <% } %>
+  </ul>
+</body>
+</html>
