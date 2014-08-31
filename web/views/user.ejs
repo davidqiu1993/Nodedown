@@ -1,14 +1,54 @@
 <!DOCTYPE html>
 <html>
+
+
 <head>
+  
+  <!-- Website Title -->
   <title><%= user %> - Nodedown</title>
+  
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
 </head>
+
+
 <body>
-  <h1><%= user %>'s Contents</h1>
-  <ul>
-    <% for (var content in contents) { %>
-    <li><a href="<%= contents[content] %>"><%= content %></a></li>
-    <% } %>
-  </ul>
+  
+  <!-- Navigation Bar -->
+  <div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Nodedown</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/<%= user %>/"><%= user %></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Content List -->
+    <h1 class="page-header"><%= user %>'s Contents</h1>
+    <div class="list-group">
+      <% for (var content in contents) { %>
+      <a class="list-group-item" href="<%= contents[content] %>"><%= content %></a>
+      <% } %>
+    </div>
+  </div>
+
 </body>
+
+
+<!-- JQuery -->
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
 </html>

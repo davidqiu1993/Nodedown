@@ -1,25 +1,75 @@
 <!DOCTYPE html>
 <html>
 
+
 <head>
+  
+  <!-- Website Title -->
   <title><%= content %> - <%= user %> - Nodedown</title>
+  
+  <!-- Bootstrap Core CSS -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  
+  <!-- JQuery -->
+  <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
 </head>
 
+
 <body>
-  <div id="main">
-<%- mdcontent %>
+  
+  <!-- Navigation Bar -->
+  <div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/">Nodedown</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/<%= user %>/"><%= user %></a></li>
+          <li class="active"><a href="/<%= user %>/<%= content %>/"><%= content %></a></li>
+        </ul>
+      </div>
+    </div>
   </div>
   
-  <br/>
-  <hr/>
-  <br/>
+  <!-- Main Content -->
+  <div class="container">
 
-  <b>Attachments:</b>
-  <ul>
-    <% for (var attachment in attachments) { %>
-    <li><a href="<%= attachments[attachment] %>"><%= attachment %></a></li>
-    <% } %>
-  </ul>
+    <!-- Markdown Content -->
+<%- mdcontent %>
+
+    <!-- Attachment List -->
+    <br/>
+    <div id="attachment-box" class="panel panel-primary" style="display:none;">
+      <div class="panel-heading">
+        <div class="panel-title">Attachments</div>
+      </div>
+      <div class="panel-body">
+      <ul>
+        <% for (var attachment in attachments) { %>
+        <script>$('#attachment-box').show();</script>
+        <li><a href="<%= attachments[attachment] %>" target="_blank"><%= attachment %></a></li>
+        <% } %>
+      </ul>
+      </div>
+    </div>
+
+  </div>
+
 </body>
+
+
+<!-- Bootstrap Features for Markdown Content -->
+<script>
+  $(document).ready(function() {
+    $('h1,h2,h3,h4,h5,h6').addClass('page-header');
+  });
+</script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 
 </html>
