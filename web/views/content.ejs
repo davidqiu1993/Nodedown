@@ -6,6 +6,8 @@
   <title><%= content %> - <%= user %> - Nodedown</title>
   <!-- Bootstrap Core CSS -->
   <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <!-- Bootstrap Docs CSS -->
+  <link rel="stylesheet" href="http://v3.bootcss.com/assets/css/docs.min.css">
   <!-- JQuery -->
   <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 </head>
@@ -36,10 +38,8 @@
   
   <!-- Main Content -->
   <div class="container">
-
     <!-- Markdown Content -->
 <%- mdcontent %>
-
     <!-- Attachment List -->
     <br/>
     <div id="attachment-box" class="panel panel-primary" style="display:none;">
@@ -55,12 +55,14 @@
       </ul>
       </div>
     </div>
-
   </div>
+
+  <!-- Document Navigation Sidebar -->
+
 
 </body>
 
-<!-- Bootstrap Features for Markdown Content -->
+<!-- Display Features for Markdown Content -->
 <script>
   $(document).ready(function() {
     $('h1,h2,h3,h4,h5,h6').addClass('page-header');
@@ -68,5 +70,7 @@
 </script>
 <!-- Bootstrap Core JavaScript -->
 <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<!-- Bootstrap Docs JavaScript -->
+<script src="http://v3.bootcss.com/assets/js/docs.min.js"></script>
 
 </html>
