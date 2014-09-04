@@ -36,34 +36,48 @@
     </div>
   </div>
   
-  <!-- Main Content -->
-  <div class="container">
-    <!-- Markdown Content -->
-<%- mdcontent %>
-    <!-- Attachment List -->
-    <br/>
-    <div id="attachment-box" class="panel panel-primary" style="display:none;">
-      <div class="panel-heading">
-        <div class="panel-title">Attachments</div>
+  <!-- Page Main Field -->
+  <div class="container bs-docs-container">
+    <div class="row">
+      
+      <!-- Main Content -->
+      <div class="col-md-9" role="main">
+        <!-- Markdown Content -->
+        <%- mdcontent %>
+        <!-- Attachment List -->
+        <br/>
+        <div id="attachment-box" class="panel panel-primary" style="display:none;">
+          <div class="panel-heading">
+            <div class="panel-title">Attachments</div>
+          </div>
+          <div class="panel-body">
+            <ul>
+              <% for (var attachment in attachments) { %>
+              <script>$('#attachment-box').show();</script>
+              <li><a href="<%= attachments[attachment] %>" target="_blank"><%= attachment %></a></li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
-      <ul>
-        <% for (var attachment in attachments) { %>
-        <script>$('#attachment-box').show();</script>
-        <li><a href="<%= attachments[attachment] %>" target="_blank"><%= attachment %></a></li>
-        <% } %>
-      </ul>
+      
+      <!-- Content Navigation Sidebar -->
+      <div class="col-md-3">
+        <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top" role="complementary">
+          <ul class="nav bs-docs-sidenav">
+            <li class="active"><a href="#less">Less components</a></li>
+          </ul>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <!-- Document Navigation Sidebar -->
-
-
 </body>
 
-<!-- Display Features for Markdown Content -->
+<!-- Customized Features -->
 <script>
+  // Append Bootstrap feature to headings
   $(document).ready(function() {
     $('h1,h2,h3,h4,h5,h6').addClass('page-header');
   });
