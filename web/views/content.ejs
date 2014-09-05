@@ -5,11 +5,11 @@
   <!-- Website Title -->
   <title><%= content %> - <%= user %> - Nodedown</title>
   <!-- Bootstrap Core CSS -->
-  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/bootstrap/3.2.0/css/bootstrap.min.css">
   <!-- Bootstrap Docs CSS -->
-  <link rel="stylesheet" href="http://v3.bootcss.com/assets/css/docs.min.css">
+  <link rel="stylesheet" href="/static/bootstrap/docs/css/docs.min.css">
   <!-- JQuery -->
-  <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+  <script src="/static/jquery/1.11.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -36,41 +36,114 @@
     </div>
   </div>
   
-  <!-- Main Content -->
-  <div class="container">
-    <!-- Markdown Content -->
-<%- mdcontent %>
-    <!-- Attachment List -->
-    <br/>
-    <div id="attachment-box" class="panel panel-primary" style="display:none;">
-      <div class="panel-heading">
-        <div class="panel-title">Attachments</div>
+  <!-- Page Content -->
+  <div class="container bs-docs-container">
+    <div class="row">
+
+      <!-- Content Main Field -->
+      <div id="main" class="col-md-9" role="main">
+        <!-- Markdown Content -->
+        <%- mdcontent %>
+        <!-- Attachment List -->
+        <br/>
+        <div id="attachment-box" class="panel panel-primary" style="display:none;">
+          <div class="panel-heading">
+            <div class="panel-title">Attachments</div>
+          </div>
+          <div class="panel-body">
+            <ul>
+              <% for (var attachment in attachments) { %>
+              <script>$('#attachment-box').show();</script>
+              <li><a href="<%= attachments[attachment] %>" target="_blank"><%= attachment %></a></li>
+              <% } %>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
-      <ul>
-        <% for (var attachment in attachments) { %>
-        <script>$('#attachment-box').show();</script>
-        <li><a href="<%= attachments[attachment] %>" target="_blank"><%= attachment %></a></li>
-        <% } %>
-      </ul>
+      
+      <!-- Content Navigation Sidebar -->
+      <div class="col-md-3">
+        <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top" role="complementary">
+          <ul id='sidenav' class="nav bs-docs-sidenav">
+            <!-- AUTOMATIC GENERATION AREA -->
+          </ul>
+          <a class="back-to-top" href="#top">Back to top</a>
+        </div>
       </div>
+
     </div>
   </div>
-
-  <!-- Document Navigation Sidebar -->
-
 
 </body>
 
 <!-- Display Features for Markdown Content -->
 <script>
+  // Attach Bootstrap header style to markdown contents
   $(document).ready(function() {
     $('h1,h2,h3,h4,h5,h6').addClass('page-header');
   });
+  
+  // Generate document navigation sidebar
+  var hcount = new Array(undefined,0,0,0,0,0,0);
+  var nodes = document.getElementById('main').childNodes;
+  var curNode = document.getElementById('sidenav');
+  function clearHCount(hcur) {
+    switch (hcur) {
+      case 1: hcount[2] = 0;
+      case 2: hcount[3] = 0;
+      case 3: hcount[4] = 0;
+      case 4: hcount[5] = 0;
+      case 5: hcount[6] = 0;
+    }
+  }/*
+  function addNavItem(cur, id, name) {
+    cur.appendChild(document.createElement('li'));
+    cur.lastChild.appendChild(document.createElement('a'));
+    cur.lastChild.lastChild.
+  }*/
+  for (var i=0; i<nodes.length; ++i) {
+    switch (nodes[i].nodeName.toUpperCase()) {  
+      case 'H1':
+        clearHCount(1);
+        ++hcount[1];
+        nodes[i].id = '' + hcount[1];
+        break;
+
+      case 'H2':
+        clearHCount(2);
+        ++hcount[2];
+        nodes[i].id = '' + hcount[1] + '-' + hcount[2];
+        break;
+
+      case 'H3':
+        clearHCount(3);
+        ++hcount[3];
+        nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3];
+        break;
+
+      case 'H4':
+        clearHCount(4);
+        ++hcount[4];
+        nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3] + '-' + hcount[4];
+        break;
+
+      case 'H5':
+        clearHCount(5);
+        ++hcount[5];
+        nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3] + '-' + hcount[4] + '-' + hcount[5];
+        break;
+
+      case 'H6':
+        clearHCount(6);
+        ++hcount[6];
+        nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3] + '-' + hcount[4] + '-' + hcount[5] + '-' + hcount[6];
+        break;
+    }
+  }
 </script>
 <!-- Bootstrap Core JavaScript -->
-<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!-- Bootstrap Docs JavaScript -->
-<script src="http://v3.bootcss.com/assets/js/docs.min.js"></script>
+<script src="/static/bootstrap/docs/js/docs.min.js"></script>
 
 </html>
