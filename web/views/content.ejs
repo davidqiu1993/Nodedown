@@ -95,24 +95,39 @@
       case 4: hcount[5] = 0;
       case 5: hcount[6] = 0;
     }
-  }/*
+  }
   function addNavItem(cur, id, name) {
     cur.appendChild(document.createElement('li'));
-    cur.lastChild.appendChild(document.createElement('a'));
-    cur.lastChild.lastChild.
-  }*/
+    cur = cur.lastChild;
+    cur.appendChild(document.createElement('a'));
+    cur = cur.lastChild;
+    cur.setAttribute('href', '#' + id);
+    cur.innerText = name;
+  }
+  function maintainNavGroup(cur) {
+    if (cur.nodeName.toUpperCase() != 'UL') {
+      cur.appendChild(document.createElement('ul'));
+      cur = cur.lastChild;
+      cur.setAttribute('class', 'nav');
+    }
+  }
   for (var i=0; i<nodes.length; ++i) {
     switch (nodes[i].nodeName.toUpperCase()) {  
       case 'H1':
         clearHCount(1);
         ++hcount[1];
         nodes[i].id = '' + hcount[1];
+        addNavItem(curNode, nodes[i].id, nodes[i].innerText);
         break;
 
       case 'H2':
         clearHCount(2);
         ++hcount[2];
         nodes[i].id = '' + hcount[1] + '-' + hcount[2];
+        curNode = curNode.lastChild;
+        maintainNavGroup(curNode);
+        curNode = curNode.lastChild;
+        addNavItem() //////////////////////////////  TODO
         break;
 
       case 'H3':
