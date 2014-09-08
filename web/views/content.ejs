@@ -63,8 +63,8 @@
       
       <!-- Content Navigation Sidebar -->
       <div class="col-md-3">
-        <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top" role="complementary">
-          <ul id='sidenav' class="nav bs-docs-sidenav">
+        <div id='sidenav' class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top" role="complementary">
+          <ul class="nav bs-docs-sidenav">
             <!-- AUTOMATIC GENERATION AREA -->
           </ul>
           <a class="back-to-top" href="#top">Back to top</a>
@@ -87,6 +87,8 @@
   var hcount = new Array(undefined,0,0,0,0,0,0);
   var nodes = document.getElementById('main').childNodes;
   var curNode = document.getElementById('sidenav');
+  var lastHeading = new Array(curNode);
+  for (var i=1; i<7; ++i) lastHeading.push(undefined);
   function clearHCount(hcur) {
     switch (hcur) {
       case 1: hcount[2] = 0;
@@ -96,62 +98,86 @@
       case 5: hcount[6] = 0;
     }
   }
-  function addNavItem(cur, id, name) {
+  function clearLastHeadings(hcur) {
+    switch (hcur) {
+      case 1: lastHeading[2] = undefined;
+      case 2: lastHeading[3] = undefined;
+      case 3: lastHeading[4] = undefined;
+      case 4: lastHeading[5] = undefined;
+      case 5: lastHeading[6] = undefined;
+    }
+  }
+  function findNavGroupNode(parentNode) {
+    var childs = parentNode.childNodes;
+    for (var i=0; i<childs.length; ++i) {
+      if (childs[i].nodeName.toUpperCase() == 'UL') return childs[i];
+    }
+    return undefined;
+  }
+  function findLowestAvailableHeading(hlevel) {
+    while (!(lastHeading[hlevel-1] || (hlevel-1==0))) --hlevel;
+    return lastHeading[hlevel-1];
+  }
+  function addNavItem(hlevel, id, name) {
+    var parentNode = findLowestAvailableHeading(hlevel);
+    var navGroup = findNavGroupNode(parentNode);
+    if (!navGroup) {
+      parentNode.appendChild(document.createElement('ul'));
+      navGroup = parentNode.lastChild;
+      navGroup.setAttribute('class','nav');
+    }
+    clearLastHeadings(hlevel);
+    var cur = navGroup;
     cur.appendChild(document.createElement('li'));
     cur = cur.lastChild;
+    lastHeading[hlevel] = cur;
     cur.appendChild(document.createElement('a'));
     cur = cur.lastChild;
     cur.setAttribute('href', '#' + id);
     cur.innerText = name;
   }
-  function maintainNavGroup(cur) {
-    if (cur.nodeName.toUpperCase() != 'UL') {
-      cur.appendChild(document.createElement('ul'));
-      cur = cur.lastChild;
-      cur.setAttribute('class', 'nav');
-    }
-  }
   for (var i=0; i<nodes.length; ++i) {
-    switch (nodes[i].nodeName.toUpperCase()) {  
+    switch (nodes[i].nodeName.toUpperCase()) {
       case 'H1':
         clearHCount(1);
         ++hcount[1];
         nodes[i].id = '' + hcount[1];
-        addNavItem(curNode, nodes[i].id, nodes[i].innerText);
+        addNavItem(1, nodes[i].id, nodes[i].innerText);
         break;
 
       case 'H2':
         clearHCount(2);
         ++hcount[2];
         nodes[i].id = '' + hcount[1] + '-' + hcount[2];
-        curNode = curNode.lastChild;
-        maintainNavGroup(curNode);
-        curNode = curNode.lastChild;
-        addNavItem() //////////////////////////////  TODO
+        addNavItem(2, nodes[i].id, nodes[i].innerText);
         break;
 
       case 'H3':
         clearHCount(3);
         ++hcount[3];
         nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3];
+        addNavItem(3, nodes[i].id, nodes[i].innerText);
         break;
 
       case 'H4':
         clearHCount(4);
         ++hcount[4];
         nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3] + '-' + hcount[4];
+        addNavItem(4, nodes[i].id, nodes[i].innerText);
         break;
 
       case 'H5':
         clearHCount(5);
         ++hcount[5];
         nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3] + '-' + hcount[4] + '-' + hcount[5];
+        addNavItem(5, nodes[i].id, nodes[i].innerText);
         break;
 
       case 'H6':
         clearHCount(6);
         ++hcount[6];
         nodes[i].id = '' + hcount[1] + '-' + hcount[2] + '-' + hcount[3] + '-' + hcount[4] + '-' + hcount[5] + '-' + hcount[6];
+        addNavItem(6, nodes[i].id, nodes[i].innerText);
         break;
     }
   }
