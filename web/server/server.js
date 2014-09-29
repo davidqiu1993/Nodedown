@@ -78,7 +78,7 @@ function _redirect(response, name, args) {
 
     case 'attachment':
       ndfs.getAttachment(args.user, args.content, args.attachment, function (file, extension) {
-          if (file != undefined) {
+          if (file !== undefined) {
             response.write(file, 'binary');
             response.end();
           }
@@ -106,7 +106,7 @@ function _redirect(response, name, args) {
 
         // Obtain the static resource
         ndfs.getStaticResource(srpath, function (file) {
-          if (file != undefined) {
+          if (file !== undefined) {
             response.write(file, 'binary');
             response.end();
           }
@@ -124,9 +124,9 @@ function _redirect(response, name, args) {
 
 
 // Create server for http services
-server = http.createServer(function (request, response) {
+var server = http.createServer(function (request, response) {
   // Log this request
-  reqInfoBuilder = new ndutil.StringBuilder();
+  var reqInfoBuilder = new ndutil.StringBuilder();
   reqInfoBuilder.append('Request Client IP = [');
   reqInfoBuilder.append(ndutil.http.getClientIp(request));
   reqInfoBuilder.append('], Hostname = [');
@@ -212,4 +212,3 @@ ndlog.logLevel = ndlog.Level.Info;
 // Listen the service port and log that server starts
 server.listen(SERVICE_PORT);
 ndlog.log('Server starts. (port: ' + SERVICE_PORT + ').', ndlog.Level.Info);
-
