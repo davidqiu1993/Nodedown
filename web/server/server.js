@@ -10,13 +10,13 @@
 
 var http = require('http');
 var util = require('util');
+var marked = require('marked');
 var ndrequire = require('./ndrequire');
 
 var ndutil = ndrequire('ndutil');
 var ndfs = ndrequire('ndfs');
 var ndlog = ndrequire('ndlog');
 var ejs = ndrequire('ejs');
-var showdown = ndrequire('showdown');
 
 var SERVICE_PORT = 8080;
 
@@ -60,7 +60,7 @@ function _redirect(response, name, args) {
         // Obtain markdown content
         ndfs.getContent(args.user, args.content, function (text) {
           // Convert markdown content to html
-          var mdcontent = showdown.Markdown2Html(text.toString());
+          var mdcontent = marked(text.toString());
 
           // Obtain view template
           ndfs.getView('content', function (view) {

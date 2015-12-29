@@ -45,58 +45,55 @@ resources. The routing rule is:
   `http://{domain}/{A}/{B}/{C}/...`
   
  * `{domain}`: is the domain name of the server where Nodedown 
-               CMS locates.
+   CMS locates.
  
  * `{A}`: is the first routing field. If it is 
    
    - _a valid user name_: request will be redirected to the home 
-                          page of the corresponding user.
+     page of the corresponding user.
    
    - _indicating home_: request will be redirected to homepage 
-                        of the Nodedown CMS.
+     of the Nodedown CMS.
                         
    - _`static`_: the following path will be redirected to static 
-                 resource directory. And if the resource does not 
-                 exist, the request will be redirected to 
-                 homepage of the Nodedown CMS.
+     resource directory. And if the resource does not exist, the 
+     request will be redirected to homepage of the Nodedown CMS.
                  
    - _others_: the request will be redirected to homepage of the 
-               Nodedown CMS.
+     Nodedown CMS.
                  
  * `{B}`: is the second routing field. Assuming the first routing 
-          field is a valid user name, if `{B}` is 
+   field is a valid user name, if `{B}` is 
   
    - _a valid content_: request will be redirected to the content 
-                        page.
+     page.
                         
    - _others_: request will be redirected to the homepage of the 
-               corresponding user.
+     corresponding user.
                
  * `{C}`: is the third routing field. Assuming the second routing 
-          field is a valid content, if `{C}` is 
+   field is a valid content, if `{C}` is 
           
    - _a valid attachment_: the corresponding attachment of this 
-                           content will be responded.
+     content will be responded.
                            
    - _others_: request will be redirected to the corresponding 
-               content page.
+     content page.
                
  * The remaining: will be ignored.
 
 
 ## Directory Structures
 
- * `./web/server/`: The service programs. You may put all 
-                    kinds of service logic here.
- * `./web/view/`: The client view templates. You may put 
-                  client side HTML templates here, and 
-                  these templates will be compiled while a 
-                  request comes.
- * `./web/data/`: The data of users. Nodedown is a multi-user 
-                  CMS, and each user owns a folder in this 
-                  directory.
- * `./web/static/`: The static resources. All files here can 
-                    be accessed directly.
+ * `./web/server/`: The service programs. You may put all kinds 
+   of service logic here.
+ * `./web/view/`: The client view templates. You may put client 
+   side HTML templates here, and these templates will be compiled 
+   while a request comes.
+ * `./web/data/`: The data of users. Nodedown is a multi-user CMS, 
+   and each user owns a folder in this directory.
+ * `./web/static/`: The static resources. All files here can be 
+   accessed directly.
 
 
 ## Authorship
