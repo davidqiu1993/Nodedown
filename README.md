@@ -16,14 +16,29 @@ Only two steps is necessary to install and bring up the
 Nodedown CMS.
 
 1.  Copy the Nodedown folder to wherever you want on a system 
-    with Node.js pre-installed.
+    with Node.js and NPM pre-installed.
+    
+2.  If bower is not installed, execute the following command to 
+    install bower tool:
+    
+        npm install -g bower
 
-2.  In the `web` directory, run the following command on 
+3.  Install dependent NPM and bower packages by executing the 
+    following commands in the `server` directory:
+    
+        npm install
+        bower install
+
+
+4.  In the `web` directory, run the following command on 
     console to bring up the Nodedown CMS:
     
-    `node server.js`
+        npm start
     
-And the Nodedown CMS is brought up and ready for requests.
+And the Nodedown CMS is brought up and ready for requests. Notice 
+that Internect connection is required during the installation 
+process, and no longer required after all installation steps are 
+done.
 
 
 ## Access
@@ -38,7 +53,7 @@ exploring it freely.
 But there is some common rules to access to different kinds of 
 resources. The routing rule is: 
   
-  `http://{domain}/{A}/{B}/{C}/...`
+    http://{domain}/{A}/{B}/{C}/...
   
 * `{domain}`: is the domain name of the server where Nodedown 
    CMS locates.
@@ -99,14 +114,21 @@ Nodedown supports mathematical inputs by
   * Branketing with `$(` and `)$` for inline text; or
   * Branketing with `$$` and `$$` for independent formulas.
 
+An example for this feature is shown as below.
+
+  $$ f(a)=\frac{1}{2 \pi i}\oint_{\gamma}\frac{f(z))}{z-a}dz $$
+
+Notice that the formulars to render must not be quoted by markdown 
+formatted language. Otherwise, it will be shown in plain text.
+
 
 ## Authorship
 
 Below is the information of the author.
 
-* __Author__: David Qiu
-* __Email__: david@davidqiu.com
-* __Website__: www.davidqiu.com
+  * __Author__:  David Qiu
+  * __Email__:   david@davidqiu.com
+  * __Website__: www.davidqiu.com
 
 Copyright (C) 2015, David Qiu.
 
