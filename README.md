@@ -116,7 +116,7 @@ Nodedown supports mathematical inputs by
 
 An example for this feature is shown as below.
 
-  $$ f(a)=\frac{1}{2 \pi i}\oint_{\gamma}\frac{f(z))}{z-a}dz $$
+  $$ f(a)=\frac{1}{2 \pi i}\oint_{\gamma}\frac{f(z)}{z-a}dz $$
 
 Notice that the formulars to render must not be quoted by markdown 
 formatted language. Otherwise, it will be shown in plain text.
