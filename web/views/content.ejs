@@ -8,8 +8,18 @@
   <link rel="stylesheet" href="/static/bootstrap/3.2.0/css/bootstrap.min.css">
   <!-- Bootstrap Docs CSS -->
   <link rel="stylesheet" href="/static/bootstrap/docs/css/docs.min.css">
-  <!-- JQuery -->
+  <!-- MathJax Style CSS and Bootstrap Docs CSS Conflict Correction -->
+  <style type="text/css">
+    .MathJax .mi, .MathJax .mo {
+      color: #000;
+    }
+  </style>
+  <!-- JQuery Core JavaScript -->
   <script src="/static/jquery/1.11.1/jquery.min.js"></script>
+  <!-- Configurations for MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$(',')$']]}});
+  </script>
 </head>
 
 <body>
@@ -186,5 +196,7 @@
 <script src="/static/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <!-- Bootstrap Docs JavaScript -->
 <script src="/static/bootstrap/docs/js/docs.min.js"></script>
+<!-- MathJax Core JavaScript -->
+<script type="text/javascript" async src="/static/bower_components/MathJax/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 </html>

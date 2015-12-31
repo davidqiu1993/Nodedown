@@ -17,9 +17,14 @@
 !/web/server/package.json
 !/web/server/ndrequire.js
 !/web/server/server.js
+!/web/server/bower.json
+!/web/server/.bowerrc
 !/web/server/lib
 
 !/web/static
+/web/static/*
+!/web/static/bootstrap
+!/web/static/jquery
 
 !/web/views
 

@@ -1,0 +1,13 @@
+{
+  "name": "nodedown-yell",
+  "description": "Nodedown is a content management system (CMS) framework based on Node.js and Markdown.",
+  "main": "server.js",
+  "authors": [
+    "David Qiu"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/davidqiu1993/Nodedown",
+  "dependencies": {
+    "MathJax": "~2.6.0"
+  }
+}
