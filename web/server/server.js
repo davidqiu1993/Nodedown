@@ -138,6 +138,9 @@ var server = http.createServer(function (request, response) {
 
   // Handler selection
   var pathSturct = ndutil.http.getRequestPathStructure(request);
+  for (var i=0; i<pathSturct.length; ++i) {
+    pathSturct[i] = decodeURIComponent(pathSturct[i]);
+  }
 
   // pathSturct A: Check preserved system paths
   switch (pathSturct[0]) {
@@ -212,3 +215,5 @@ ndlog.logLevel = ndlog.Level.Info;
 // Listen the service port and log that server starts
 server.listen(SERVICE_PORT);
 ndlog.log('Server starts. (port: ' + SERVICE_PORT + ').', ndlog.Level.Info);
+
+

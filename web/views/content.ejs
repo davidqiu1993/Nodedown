@@ -39,8 +39,8 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><a href="/">Home</a></li>
-          <li><a href="/<%= user %>/"><%= user %></a></li>
-          <li class="active"><a href="/<%= user %>/<%= content %>/"><%= content %></a></li>
+          <li><a href="/<%= encodeURIComponent(user) %>/"><%= user %></a></li>
+          <li class="active"><a href="/<%= encodeURIComponent(user) %>/<%= encodeURIComponent(content) %>/"><%= content %></a></li>
         </ul>
       </div>
     </div>
@@ -64,7 +64,7 @@
             <ul>
               <% for (var attachment in attachments) { %>
               <script>$('#attachment-box').show();</script>
-              <li><a href="<%= attachments[attachment] %>" target="_blank"><%= attachment %></a></li>
+              <li><a href="/<%= encodeURIComponent(user) %>/<%= encodeURIComponent(content) %>/<%= encodeURIComponent(attachment) %>" target="_blank"><%= attachment %></a></li>
               <% } %>
             </ul>
           </div>

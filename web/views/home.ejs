@@ -36,7 +36,7 @@
     <h1 class="page-header">Users</h1>
     <div class="list-group">
       <% for (var user in users) { %>
-      <a class="list-group-item" href="<%= users[user] %>"><%= user %></a>
+      <a class="list-group-item" href="/<%= encodeURIComponent(user) %>/"><%= user %></a>
       <% } %>
     </div>
   </div>
