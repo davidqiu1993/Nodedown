@@ -2,16 +2,22 @@
 <html>
 
 <head>  
-  <!-- Website Title -->
+  <!-- Web Page Meta -->
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+  <meta charset="utf-8">
+  <!-- Web Page Title -->
   <title><%= content %> - <%= user %> - Nodedown</title>
   <!-- Bootstrap Core CSS -->
   <link rel="stylesheet" href="/static/bootstrap/3.2.0/css/bootstrap.min.css">
   <!-- Bootstrap Docs CSS -->
   <link rel="stylesheet" href="/static/bootstrap/docs/css/docs.min.css">
-  <!-- MathJax Style CSS and Bootstrap Docs CSS Conflict Correction -->
+  <!-- Custom Stylesheets for Content Page -->
   <style type="text/css">
     .MathJax .mi, .MathJax .mo {
       color: #000;
+    }
+    img {
+      max-width: 100%;
     }
   </style>
   <!-- JQuery Core JavaScript -->
