@@ -51,7 +51,8 @@ ndfs.viewPostfix = '.ejs';
  *                 a boolean indicating the existance of the user.
  *
  * @brief
- *    Query if a user exists.
+ *    Query if a user exists. Note that all usrnames starting with `.` will be 
+ *    ignored and considered as inexistence.
  */
 ndfs.existsUser = function (user, callback) {
   // Check the arguments
@@ -64,6 +65,10 @@ ndfs.existsUser = function (user, callback) {
     var errmsg = 'ndfs.existsUser(user, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    callback(false);
+    return;
   }
 
   // Obtain the user path
@@ -80,9 +85,11 @@ ndfs.existsUser = function (user, callback) {
 
 /**
  * @param user The user to query its existance.
+ * @return A boolean indicating if the queried user exists.
  *
  * @brief
- *    Query if a user exists. This is a synchronous version.
+ *    Query if a user exists. Note that all usrnames starting with `.` will be 
+ *    ignored and considered as inexistence. This is a synchronous version.
  */
 ndfs.existsUserSync = function (user) {
   // Check the arguments
@@ -90,6 +97,9 @@ ndfs.existsUserSync = function (user) {
     var errmsg = 'ndfs.existsUserSync(user): The parameter [user] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    return false;
   }
 
   // Obtain the user path
@@ -111,7 +121,8 @@ ndfs.existsUserSync = function (user) {
  *                 key is user and value the corresponding url.
  *
  * @brief
- *    Get all the users.
+ *    Get all the users. Note that all usrnames starting with `.` will be 
+ *    ignored and considered as inexistence.
  */
 ndfs.getUsers = function (callback) {
   // Check the argument
@@ -135,6 +146,8 @@ ndfs.getUsers = function (callback) {
     // Traverse the user directory
     var users = {};
     items.forEach(function (item) {
+      if (!item) return;
+      if (item[0] == '.') return;
       if (fs.statSync(userpath + '/' + item).isDirectory()) {
         var accessUrl =  '/' + item + '/';
         users[item] = accessUrl;
@@ -155,7 +168,8 @@ ndfs.getUsers = function (callback) {
  *                 a boolean indicating the existance of the content.
  *
  * @brief
- *    Query if a content exists.
+ *    Query if a content exists. Note that all usrnames starting with `.` will 
+ *    be ignored and considered as inexistence.
  */
 ndfs.existsContent = function (user, content, callback) {
   // Check the arguments
@@ -173,6 +187,10 @@ ndfs.existsContent = function (user, content, callback) {
     var errmsg = 'ndfs.existsContent(user, content, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if(user[0] == '.') {
+    callback(false);
+    return;
   }
 
   // Obtain the content path
@@ -192,9 +210,11 @@ ndfs.existsContent = function (user, content, callback) {
 /**
  * @param user The user to whom the content belong.
  * @param content The content to query.
+ * @return A boolean indicating if the user and content exist.
  *
  * @brief
- *    Query if a content exists. This is a synchronous version.
+ *    Query if a content exists. Note that all usrnames starting with `.` will 
+ *    be ignored and considered as inexistence. This is a synchronous version.
  */
 ndfs.existsContentSync = function (user, content) {
   // Check the arguments
@@ -207,6 +227,9 @@ ndfs.existsContentSync = function (user, content) {
     var errmsg = 'ndfs.existsContentSync(user, content): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    return false;
   }
   
   // Obtain the content path
@@ -233,7 +256,8 @@ ndfs.existsContentSync = function (user, content) {
  *                 not exist, text will be set as undefined.
  *
  * @brief
- *    Obtain a content from the Nodedown file system.
+ *    Obtain a content from the Nodedown file system. Note that all usrnames 
+ *    starting with `.` will be ignored and considered as inexistence.
  */
 ndfs.getContent = function (user, content, callback) {
   // Check the arguments
@@ -251,6 +275,10 @@ ndfs.getContent = function (user, content, callback) {
     var errmsg = 'ndfs.getContent(user, content, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    callback(undefined);
+    return;
   }
 
   // Obtain the content path
@@ -306,7 +334,8 @@ ndfs.getContent = function (user, content, callback) {
  *                 objectwill be returned.
  *
  * @brief
- *    Get all the contents of a user.
+ *    Get all the contents of a user. Note that all usrnames starting with `.` 
+ *    will be ignored and considered as inexistence.
  */
 ndfs.getContents = function (user, callback) {
   // Check the arguments
@@ -319,6 +348,10 @@ ndfs.getContents = function (user, callback) {
     var errmsg = 'ndfs.getContents(user, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    callback({});
+    return;
   }
 
   // Obtain the content directory path
@@ -373,7 +406,8 @@ ndfs.getContents = function (user, callback) {
  *                 attachment.
  *
  * @brief
- *    Query if an attachment exists.
+ *    Query if an attachment exists. Note that all usrnames starting with `.` 
+ *    will be ignored and considered as inexistence.
  */
 ndfs.existsAttachment = function (user, content, attachment, callback) {
     // Check the arguments
@@ -397,6 +431,10 @@ ndfs.existsAttachment = function (user, content, attachment, callback) {
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
+  if (user[0] == '.') {
+    callback(false);
+    return;
+  }
 
   // Obtain the attachment path
   var pathBuilder = new ndutil.StringBuilder();
@@ -418,9 +456,12 @@ ndfs.existsAttachment = function (user, content, attachment, callback) {
  * @param user The user to whom the attachment belong.
  * @param content The content to which the attachment belong.
  * @param attachment The attachment to query.
+ * @return A boolean indicating the existance of the attachment.
  *
  * @brief
- *    Query if a attachment exists. This is a synchronous version.
+ *    Query if a attachment exists. Note that all usrnames starting with `.` 
+ *    will be ignored and considered as inexistence. This is a synchronous 
+ *    version.
  */
 ndfs.existsAttachmentSync = function (user, content, attachment) {
   // Check the arguments
@@ -438,6 +479,9 @@ ndfs.existsAttachmentSync = function (user, content, attachment) {
     var errmsg = 'ndfs.existsAttachmentSync(user, content, attachment): The parameter [attachment] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    return false;
   }
   
   // Obtain the attachment path
@@ -471,7 +515,8 @@ ndfs.existsAttachmentSync = function (user, content, attachment) {
  *                 extension an empty string.
  *
  * @brief
- *    Obtain an attachment from the Nodedown file system.
+ *    Obtain an attachment from the Nodedown file system. Note that all 
+ *    usrnames starting with `.` will be ignored and considered as inexistence.
  */
 ndfs.getAttachment = function (user, content, attachment, callback) {
   // Check the arguments
@@ -494,6 +539,10 @@ ndfs.getAttachment = function (user, content, attachment, callback) {
     var errmsg = 'ndfs.getAttachment(user, content, attachment, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    callback(undefined, '');
+    return;
   }
 
   // Obtain the attachment path
@@ -551,7 +600,8 @@ ndfs.getAttachment = function (user, content, attachment, callback) {
  *                 not exist, an empty object will be returned.
  *
  * @brief
- *    Get all the attachments of a user's content.
+ *    Get all the attachments of a user's content. Note that all usrnames 
+ *    starting with `.` will be ignored and considered as inexistence.
  */
 ndfs.getAttachments = function (user, content, callback) {
   // Check the arguments
@@ -569,6 +619,10 @@ ndfs.getAttachments = function (user, content, callback) {
     var errmsg = 'ndfs.getAttachments(user, content, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
+  }
+  if (user[0] == '.') {
+    callback({});
+    return;
   }
 
   // Obtain the attachment directory path
