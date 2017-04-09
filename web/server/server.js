@@ -139,7 +139,12 @@ var server = http.createServer(function (request, response) {
   // Handler selection
   var pathSturct = ndutil.http.getRequestPathStructure(request);
   for (var i=0; i<pathSturct.length; ++i) {
-    pathSturct[i] = decodeURIComponent(pathSturct[i]);
+    try {
+      pathSturct[i] = decodeURIComponent(pathSturct[i]);
+    } catch (err) {
+      pathSturct = [''];
+      break;
+    }
   }
 
   // pathSturct A: Check preserved system paths
