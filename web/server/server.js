@@ -18,7 +18,7 @@ var ndfs = ndrequire('ndfs');
 var ndlog = ndrequire('ndlog');
 var ejs = ndrequire('ejs');
 
-var SERVICE_PORT = 8080;
+var SERVICE_PORT = process.env.PORT || 8080;
 
 
 /**
