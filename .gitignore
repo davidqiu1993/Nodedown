@@ -6,12 +6,6 @@
 !/web
 /web/*
 
-!/web/data
-/web/data/*
-!/web/data/users
-/web/data/users/*
-!/web/data/users/Admin
-
 !/web/server
 /web/server/*
 !/web/server/package.json
