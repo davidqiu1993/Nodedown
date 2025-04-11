@@ -3,7 +3,7 @@
 
 <head>
   <!-- Web Page Meta -->
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,category-scalable=no">
   <meta charset="utf-8">
   <!-- Web Page Title -->
   <title>Home - Nodedown</title>
@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  
+
   <!-- Navigation Bar -->
   <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -32,14 +32,14 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Main Content -->
   <div class="container">
-    <!-- User List -->
-    <h1 class="page-header">Users</h1>
+    <!-- Category List -->
+    <h1 class="page-header">Table of Contents</h1>
     <div class="list-group">
-      <% for (var user in users) { %>
-      <a class="list-group-item" href="/<%= encodeURIComponent(user) %>/"><%= user %></a>
+      <% for (var category in categories) { %>
+      <a class="list-group-item" href="/<%= encodeURIComponent(category) %>/"><%= category %></a>
       <% } %>
     </div>
   </div>

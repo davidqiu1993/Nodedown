@@ -45,83 +45,83 @@ ndfs.viewPostfix = '.ejs';
 
 
 /**
- * @param user The user to query its existance.
- * @param callback The callback function when query result achieved. 
- *                 Its form is "function (exists)", where exists is 
- *                 a boolean indicating the existance of the user.
+ * @param category The category to query its existance.
+ * @param callback The callback function when query result achieved.
+ *                 Its form is "function (exists)", where exists is
+ *                 a boolean indicating the existance of the category.
  *
  * @brief
- *    Query if a user exists. Note that all usrnames starting with `.` will be 
+ *    Query if a category exists. Note that all usrnames starting with `.` will be
  *    ignored and considered as inexistence.
  */
-ndfs.existsUser = function (user, callback) {
+ndfs.existsUser = function (category, callback) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.existsUser(user, callback): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.existsUser(category, callback): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!callback || typeof (callback) != 'function') {
-    var errmsg = 'ndfs.existsUser(user, callback): The parameter [callback] is necessary and must be a function';
+    var errmsg = 'ndfs.existsUser(category, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     callback(false);
     return;
   }
 
-  // Obtain the user path
+  // Obtain the category path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   var userpath = pathBuilder.toString();
 
-  // Query the user path
+  // Query the category path
   fs.exists(userpath, callback);
 }
 
 
 /**
- * @param user The user to query its existance.
- * @return A boolean indicating if the queried user exists.
+ * @param category The category to query its existance.
+ * @return A boolean indicating if the queried category exists.
  *
  * @brief
- *    Query if a user exists. Note that all usrnames starting with `.` will be 
+ *    Query if a category exists. Note that all usrnames starting with `.` will be
  *    ignored and considered as inexistence. This is a synchronous version.
  */
-ndfs.existsUserSync = function (user) {
+ndfs.existsUserSync = function (category) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.existsUserSync(user): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.existsUserSync(category): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     return false;
   }
 
-  // Obtain the user path
+  // Obtain the category path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   var userpath = pathBuilder.toString();
 
-  // Query the user path
+  // Query the category path
   return fs.existsSync(userpath);
 }
 
 
 /**
- * @param callback The callback function when users achieved. Its 
- *                 form is "function (users)", where users is a 
- *                 collection of users in key-value pairs. The 
- *                 key is user and value the corresponding url.
+ * @param callback The callback function when categories achieved. Its
+ *                 form is "function (categories)", where categories is a
+ *                 collection of categories in key-value pairs. The
+ *                 key is category and value the corresponding url.
  *
  * @brief
- *    Get all the users. Note that all usrnames starting with `.` will be 
+ *    Get all the categories. Note that all usrnames starting with `.` will be
  *    ignored and considered as inexistence.
  */
 ndfs.getUsers = function (callback) {
@@ -132,10 +132,10 @@ ndfs.getUsers = function (callback) {
     throw errmsg;
   }
 
-  // Obtain the user directory path
-  var userpath = this.dataPath + '/users';
+  // Obtain the category directory path
+  var userpath = this.dataPath + '/categories';
 
-  // Get all users
+  // Get all categories
   fs.readdir(userpath, function (err, items) {
     // Error detection
     if (err) {
@@ -143,52 +143,52 @@ ndfs.getUsers = function (callback) {
       throw err;
     }
 
-    // Traverse the user directory
-    var users = {};
+    // Traverse the category directory
+    var categories = {};
     items.forEach(function (item) {
       if (!item) return;
       if (item[0] == '.') return;
       if (fs.statSync(userpath + '/' + item).isDirectory()) {
         var accessUrl =  '/' + item + '/';
-        users[item] = accessUrl;
+        categories[item] = accessUrl;
       }
     });
 
     // Run the callback function
-    callback(users);
+    callback(categories);
   });
 }
 
 
 /**
- * @param user The user to whom the content belong.
+ * @param category The category to whom the content belong.
  * @param content The content to query.
- * @param callback The callback function when query result achieved. 
- *                 Its form is "function (exists)", where exists is 
+ * @param callback The callback function when query result achieved.
+ *                 Its form is "function (exists)", where exists is
  *                 a boolean indicating the existance of the content.
  *
  * @brief
- *    Query if a content exists. Note that all usrnames starting with `.` will 
+ *    Query if a content exists. Note that all usrnames starting with `.` will
  *    be ignored and considered as inexistence.
  */
-ndfs.existsContent = function (user, content, callback) {
+ndfs.existsContent = function (category, content, callback) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.existsContent(user, content, callback): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.existsContent(category, content, callback): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!content) {
-    var errmsg = 'ndfs.existsContent(user, content, callback): The parameter [content] is necessary.';
+    var errmsg = 'ndfs.existsContent(category, content, callback): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!callback || typeof (callback) != 'function') {
-    var errmsg = 'ndfs.existsContent(user, content, callback): The parameter [callback] is necessary and must be a function';
+    var errmsg = 'ndfs.existsContent(category, content, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if(user[0] == '.') {
+  if(category[0] == '.') {
     callback(false);
     return;
   }
@@ -196,8 +196,8 @@ ndfs.existsContent = function (user, content, callback) {
   // Obtain the content path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents/');
   pathBuilder.append(content);
   var contentpath = pathBuilder.toString();
@@ -208,35 +208,35 @@ ndfs.existsContent = function (user, content, callback) {
 
 
 /**
- * @param user The user to whom the content belong.
+ * @param category The category to whom the content belong.
  * @param content The content to query.
- * @return A boolean indicating if the user and content exist.
+ * @return A boolean indicating if the category and content exist.
  *
  * @brief
- *    Query if a content exists. Note that all usrnames starting with `.` will 
+ *    Query if a content exists. Note that all usrnames starting with `.` will
  *    be ignored and considered as inexistence. This is a synchronous version.
  */
-ndfs.existsContentSync = function (user, content) {
+ndfs.existsContentSync = function (category, content) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.existsContentSync(user, content): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.existsContentSync(category, content): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!content) {
-    var errmsg = 'ndfs.existsContentSync(user, content): The parameter [content] is necessary.';
+    var errmsg = 'ndfs.existsContentSync(category, content): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     return false;
   }
-  
+
   // Obtain the content path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents/');
   pathBuilder.append(content);
   var contentpath = pathBuilder.toString();
@@ -247,36 +247,36 @@ ndfs.existsContentSync = function (user, content) {
 
 
 /**
- * @param user The user to whom the content belong.
+ * @param category The category to whom the content belong.
  * @param content The content to get.
- * @param callback The callback function when content achieved. 
- *                 Its form is "function (text)", where text 
- *                 is a text stream of the content, normally it 
- *                 is in Markdown format. If the content does 
+ * @param callback The callback function when content achieved.
+ *                 Its form is "function (text)", where text
+ *                 is a text stream of the content, normally it
+ *                 is in Markdown format. If the content does
  *                 not exist, text will be set as undefined.
  *
  * @brief
- *    Obtain a content from the Nodedown file system. Note that all usrnames 
+ *    Obtain a content from the Nodedown file system. Note that all usrnames
  *    starting with `.` will be ignored and considered as inexistence.
  */
-ndfs.getContent = function (user, content, callback) {
+ndfs.getContent = function (category, content, callback) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.getContent(user, content, callback): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.getContent(category, content, callback): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!content) {
-    var errmsg = 'ndfs.getContent(user, content, callback): The parameter [content] is necessary.';
+    var errmsg = 'ndfs.getContent(category, content, callback): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!callback || typeof (callback) != 'function') {
-    var errmsg = 'ndfs.getContent(user, content, callback): The parameter [callback] is necessary and must be a function';
+    var errmsg = 'ndfs.getContent(category, content, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     callback(undefined);
     return;
   }
@@ -284,8 +284,8 @@ ndfs.getContent = function (user, content, callback) {
   // Obtain the content path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents/');
   pathBuilder.append(content);
   pathBuilder.append('/content.md');
@@ -302,10 +302,10 @@ ndfs.getContent = function (user, content, callback) {
       fs.readFile(contentpath, function (err, text) {
         // Check error
         if (err) {
-          ndlog.log('ndfs.getContent(user, content, callback): Error occurs when calling fs.readFile. (path: \'' + contentpath + '\')', ndlog.Level.Error);
+          ndlog.log('ndfs.getContent(category, content, callback): Error occurs when calling fs.readFile. (path: \'' + contentpath + '\')', ndlog.Level.Error);
           throw err;
         }
-        
+
         // Run the callback function
         callback(text);
       });
@@ -313,11 +313,11 @@ ndfs.getContent = function (user, content, callback) {
       // Finish the request
       return;
     }
-    
+
     // Content not exists
     // DEBUG: Inform content exists
     ndlog.log('Content not found. (Path = \'' + contentpath + '\')', ndlog.Level.Debug);
-    
+
     // Run the callback function
     callback(undefined);
   });
@@ -325,31 +325,31 @@ ndfs.getContent = function (user, content, callback) {
 
 
 /**
- * @param user The user to whom contents belong.
- * @param callback The callback function when contents achieved. Its 
- *                 form is "function (contents)", where contents is 
- *                 a collection of contents in key-value pairs. The 
- *                 key is content and value the corresponding url. 
- *                 If the content path does not exist, an empty 
+ * @param category The category to whom contents belong.
+ * @param callback The callback function when contents achieved. Its
+ *                 form is "function (contents)", where contents is
+ *                 a collection of contents in key-value pairs. The
+ *                 key is content and value the corresponding url.
+ *                 If the content path does not exist, an empty
  *                 objectwill be returned.
  *
  * @brief
- *    Get all the contents of a user. Note that all usrnames starting with `.` 
+ *    Get all the contents of a category. Note that all usrnames starting with `.`
  *    will be ignored and considered as inexistence.
  */
-ndfs.getContents = function (user, callback) {
+ndfs.getContents = function (category, callback) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.getContents(user, callback): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.getContents(category, callback): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!callback || typeof (callback) != 'function') {
-    var errmsg = 'ndfs.getContents(user, callback): The parameter [callback] is necessary and must be a function';
+    var errmsg = 'ndfs.getContents(category, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     callback({});
     return;
   }
@@ -357,8 +357,8 @@ ndfs.getContents = function (user, callback) {
   // Obtain the content directory path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents');
   var contentpath = pathBuilder.toString();
 
@@ -375,12 +375,12 @@ ndfs.getContents = function (user, callback) {
     fs.readdir(contentpath, function (err, items) {
       // Error detection
       if (err) {
-        ndlog.log('ndfs.getContents(user, callback): Error occurs when calling fs.readdir. (path: \'' + contentpath + '\')', ndlog.Level.Error);
+        ndlog.log('ndfs.getContents(category, callback): Error occurs when calling fs.readdir. (path: \'' + contentpath + '\')', ndlog.Level.Error);
         throw err;
       }
 
       // Traverse the content directory
-      var accessUrlPrefix = '/' + user + '/';
+      var accessUrlPrefix = '/' + category + '/';
       var contents = {};
       items.forEach(function (item) {
         if (fs.statSync(contentpath + '/' + item).isDirectory()) {
@@ -397,41 +397,41 @@ ndfs.getContents = function (user, callback) {
 
 
 /**
- * @param user The user to whom the attachment belong.
+ * @param category The category to whom the attachment belong.
  * @param content The content to which the attachment belong.
  * @param attachment The attachment to query.
- * @param callback The callback function when query result achieved. 
- *                 Its form is "function (exists)", where exists is 
- *                 a boolean indicating the existance of the 
+ * @param callback The callback function when query result achieved.
+ *                 Its form is "function (exists)", where exists is
+ *                 a boolean indicating the existance of the
  *                 attachment.
  *
  * @brief
- *    Query if an attachment exists. Note that all usrnames starting with `.` 
+ *    Query if an attachment exists. Note that all usrnames starting with `.`
  *    will be ignored and considered as inexistence.
  */
-ndfs.existsAttachment = function (user, content, attachment, callback) {
+ndfs.existsAttachment = function (category, content, attachment, callback) {
     // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.existsAttachment(user, content, attachment, callback): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.existsAttachment(category, content, attachment, callback): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!content) {
-    var errmsg = 'ndfs.existsAttachment(user, content, attachment, callback): The parameter [content] is necessary.';
+    var errmsg = 'ndfs.existsAttachment(category, content, attachment, callback): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!attachment) {
-    var errmsg = 'ndfs.existsAttachment(user, content, attachment, callback): The parameter [attachment] is necessary.';
+    var errmsg = 'ndfs.existsAttachment(category, content, attachment, callback): The parameter [attachment] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!callback || typeof (callback) != 'function') {
-    var errmsg = 'ndfs.existsAttachment(user, content, attachment, callback): The parameter [callback] is necessary and must be a function';
+    var errmsg = 'ndfs.existsAttachment(category, content, attachment, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     callback(false);
     return;
   }
@@ -439,8 +439,8 @@ ndfs.existsAttachment = function (user, content, attachment, callback) {
   // Obtain the attachment path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents/');
   pathBuilder.append(content);
   pathBuilder.append('/attachments/');
@@ -453,42 +453,42 @@ ndfs.existsAttachment = function (user, content, attachment, callback) {
 
 
 /**
- * @param user The user to whom the attachment belong.
+ * @param category The category to whom the attachment belong.
  * @param content The content to which the attachment belong.
  * @param attachment The attachment to query.
  * @return A boolean indicating the existance of the attachment.
  *
  * @brief
- *    Query if a attachment exists. Note that all usrnames starting with `.` 
- *    will be ignored and considered as inexistence. This is a synchronous 
+ *    Query if a attachment exists. Note that all usrnames starting with `.`
+ *    will be ignored and considered as inexistence. This is a synchronous
  *    version.
  */
-ndfs.existsAttachmentSync = function (user, content, attachment) {
+ndfs.existsAttachmentSync = function (category, content, attachment) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.existsAttachmentSync(user, content, attachment): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.existsAttachmentSync(category, content, attachment): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!content) {
-    var errmsg = 'ndfs.existsAttachmentSync(user, content, attachment): The parameter [content] is necessary.';
+    var errmsg = 'ndfs.existsAttachmentSync(category, content, attachment): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!attachment) {
-    var errmsg = 'ndfs.existsAttachmentSync(user, content, attachment): The parameter [attachment] is necessary.';
+    var errmsg = 'ndfs.existsAttachmentSync(category, content, attachment): The parameter [attachment] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     return false;
   }
-  
+
   // Obtain the attachment path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents/');
   pathBuilder.append(content);
   pathBuilder.append('/attachments/');
@@ -501,46 +501,46 @@ ndfs.existsAttachmentSync = function (user, content, attachment) {
 
 
 /**
- * @param user The user to whom the attachment belong.
+ * @param category The category to whom the attachment belong.
  * @param content The content to which the attachment belong.
  * @param attachment The attachment to get.
- * @param callback The callback function when attachment achieved. 
- *                 Its form is "function (file, extension)", where 
- *                 file is a binary stream of the attachment and 
- *                 extension the extension name of the attachment. 
- *                 The extension name includes the dot, and it 
- *                 will be an empty string if the attachment has 
- *                 no extension name. If the attachment does not 
- *                 exist, attachment will be undefined and 
+ * @param callback The callback function when attachment achieved.
+ *                 Its form is "function (file, extension)", where
+ *                 file is a binary stream of the attachment and
+ *                 extension the extension name of the attachment.
+ *                 The extension name includes the dot, and it
+ *                 will be an empty string if the attachment has
+ *                 no extension name. If the attachment does not
+ *                 exist, attachment will be undefined and
  *                 extension an empty string.
  *
  * @brief
- *    Obtain an attachment from the Nodedown file system. Note that all 
+ *    Obtain an attachment from the Nodedown file system. Note that all
  *    usrnames starting with `.` will be ignored and considered as inexistence.
  */
-ndfs.getAttachment = function (user, content, attachment, callback) {
+ndfs.getAttachment = function (category, content, attachment, callback) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.getAttachment(user, content, attachment, callback): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.getAttachment(category, content, attachment, callback): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!content) {
-    var errmsg = 'ndfs.getAttachment(user, content, attachment, callback): The parameter [content] is necessary.';
+    var errmsg = 'ndfs.getAttachment(category, content, attachment, callback): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!attachment) {
-    var errmsg = 'ndfs.getAttachment(user, content, attachment, callback): The parameter [attachment] is necessary.';
+    var errmsg = 'ndfs.getAttachment(category, content, attachment, callback): The parameter [attachment] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!callback || typeof (callback) != 'function') {
-    var errmsg = 'ndfs.getAttachment(user, content, attachment, callback): The parameter [callback] is necessary and must be a function';
+    var errmsg = 'ndfs.getAttachment(category, content, attachment, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     callback(undefined, '');
     return;
   }
@@ -548,8 +548,8 @@ ndfs.getAttachment = function (user, content, attachment, callback) {
   // Obtain the attachment path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents/');
   pathBuilder.append(content);
   pathBuilder.append('/attachments/');
@@ -567,10 +567,10 @@ ndfs.getAttachment = function (user, content, attachment, callback) {
       fs.readFile(attachmentpath, 'binary', function (err, file) {
         // Check error
         if (err) {
-          ndlog.log('ndfs.getAttachment(user, content, attachment, callback): Error occurs when calling fs.readFile. (path: \'' + attachmentpath + '\')', ndlog.Level.Error);
+          ndlog.log('ndfs.getAttachment(category, content, attachment, callback): Error occurs when calling fs.readFile. (path: \'' + attachmentpath + '\')', ndlog.Level.Error);
           throw err;
         }
-        
+
         // Run the callback function
         callback(file, path.extname(attachmentpath));
       });
@@ -578,11 +578,11 @@ ndfs.getAttachment = function (user, content, attachment, callback) {
       // Finish the request
       return;
     }
-    
+
     // Attachment not exists
     // DEBUG: Inform attachment exists
     ndlog.log('Attachment not found. (Path = \'' + attachmentpath + '\')', ndlog.Level.Debug);
-    
+
     // Run the callback function
     callback(undefined, '');
   });
@@ -590,37 +590,37 @@ ndfs.getAttachment = function (user, content, attachment, callback) {
 
 
 /**
- * @param user The user to whom attachments belong.
+ * @param category The category to whom attachments belong.
  * @param content The content to which attachments belong.
- * @param callback The callback function when attachments achieved. 
- *                 Its form is "function (attachments)", where 
- *                 attachments is a collection of attachments in 
- *                 key-value pairs. The key is attachment and value 
- *                 the corresponding url. If the attachment path does 
+ * @param callback The callback function when attachments achieved.
+ *                 Its form is "function (attachments)", where
+ *                 attachments is a collection of attachments in
+ *                 key-value pairs. The key is attachment and value
+ *                 the corresponding url. If the attachment path does
  *                 not exist, an empty object will be returned.
  *
  * @brief
- *    Get all the attachments of a user's content. Note that all usrnames 
+ *    Get all the attachments of a category's content. Note that all usrnames
  *    starting with `.` will be ignored and considered as inexistence.
  */
-ndfs.getAttachments = function (user, content, callback) {
+ndfs.getAttachments = function (category, content, callback) {
   // Check the arguments
-  if (!user) {
-    var errmsg = 'ndfs.getAttachments(user, content, callback): The parameter [user] is necessary.';
+  if (!category) {
+    var errmsg = 'ndfs.getAttachments(category, content, callback): The parameter [category] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!content) {
-    var errmsg = 'ndfs.getAttachments(user, content, callback): The parameter [content] is necessary.';
+    var errmsg = 'ndfs.getAttachments(category, content, callback): The parameter [content] is necessary.';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
   if (!callback || typeof (callback) != 'function') {
-    var errmsg = 'ndfs.getAttachments(user, content, callback): The parameter [callback] is necessary and must be a function';
+    var errmsg = 'ndfs.getAttachments(category, content, callback): The parameter [callback] is necessary and must be a function';
     ndlog.log(errmsg, ndlog.Level.Error);
     throw errmsg;
   }
-  if (user[0] == '.') {
+  if (category[0] == '.') {
     callback({});
     return;
   }
@@ -628,8 +628,8 @@ ndfs.getAttachments = function (user, content, callback) {
   // Obtain the attachment directory path
   var pathBuilder = new ndutil.StringBuilder();
   pathBuilder.append(this.dataPath);
-  pathBuilder.append('/users/');
-  pathBuilder.append(user);
+  pathBuilder.append('/categories/');
+  pathBuilder.append(category);
   pathBuilder.append('/contents/');
   pathBuilder.append(content);
   pathBuilder.append('/attachments');
@@ -648,14 +648,14 @@ ndfs.getAttachments = function (user, content, callback) {
     fs.readdir(userpath, function (err, items) {
       // Error detection
       if (err) {
-        ndlog.log('ndfs.getAttachments(user, content, callback): Error occurs when calling fs.readdir. (path: \'' + userpath + '\')', ndlog.Level.Error);
+        ndlog.log('ndfs.getAttachments(category, content, callback): Error occurs when calling fs.readdir. (path: \'' + userpath + '\')', ndlog.Level.Error);
         throw err;
       }
 
       // Traverse the content directory
       var prefixBuilder = new ndutil.StringBuilder();
       prefixBuilder.append('/');
-      prefixBuilder.append(user);
+      prefixBuilder.append(category);
       prefixBuilder.append('/');
       prefixBuilder.append(content);
       prefixBuilder.append('/');
@@ -677,8 +677,8 @@ ndfs.getAttachments = function (user, content, callback) {
 
 /**
  * @param name Name of the view.
- * @param callback The callback function when view file achieved. 
- *                 Its form is "function (view)", where view is a 
+ * @param callback The callback function when view file achieved.
+ *                 Its form is "function (view)", where view is a
  *                 string of the view template content.
  *
  * @brief
@@ -720,12 +720,12 @@ ndfs.getView = function (name, callback) {
 
 
 /**
- * @param src Location of the static resource based on the static 
+ * @param src Location of the static resource based on the static
  *            path. The path does not includes any prefix.
- * @param callback The callback function when static resource 
- *                 achieved. Its form is "function (file)", where 
- *                 file is a binary of the static resource. If the 
- *                 static resource not found, an undefined will be 
+ * @param callback The callback function when static resource
+ *                 achieved. Its form is "function (file)", where
+ *                 file is a binary of the static resource. If the
+ *                 static resource not found, an undefined will be
  *                 set as the file.
  *
  * @brief

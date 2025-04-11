@@ -33,9 +33,9 @@ function _redirect(response, name, args) {
   switch (name) {
 
     case 'home':
-      ndfs.getUsers(function (users) {
+      ndfs.getUsers(function (categories) {
         ndfs.getView('home', function (view) {
-          var params = { users: users };
+          var params = { categories: categories };
           var html = ejs.render(view, params);
           response.writeHead(200, {'Content-Type': 'text/html'});
           response.end(html);
@@ -43,10 +43,10 @@ function _redirect(response, name, args) {
       });
       break;
 
-    case 'user':
-      ndfs.getContents(args.user, function (contents) {
-        ndfs.getView('user', function (view) {
-          var params = { user: args.user, contents: contents };
+    case 'category':
+      ndfs.getContents(args.category, function (contents) {
+        ndfs.getView('category', function (view) {
+          var params = { category: args.category, contents: contents };
           var html = ejs.render(view, params);
           response.writeHead(200, {'Content-Type': 'text/html'});
           response.end(html);
@@ -56,16 +56,16 @@ function _redirect(response, name, args) {
 
     case 'content':
       // Obtain attachment list
-      ndfs.getAttachments(args.user, args.content, function (attachments) {
+      ndfs.getAttachments(args.category, args.content, function (attachments) {
         // Obtain markdown content
-        ndfs.getContent(args.user, args.content, function (text) {
+        ndfs.getContent(args.category, args.content, function (text) {
           // Convert markdown content to html
           var mdcontent = marked(text.toString());
 
           // Obtain view template
           ndfs.getView('content', function (view) {
             // Render the view
-            var params = { user: args.user, content: args.content, mdcontent: mdcontent, attachments: attachments };
+            var params = { category: args.category, content: args.content, mdcontent: mdcontent, attachments: attachments };
             var html = ejs.render(view, params);
 
             // Response
@@ -77,7 +77,7 @@ function _redirect(response, name, args) {
       break;
 
     case 'attachment':
-      ndfs.getAttachment(args.user, args.content, args.attachment, function (file, extension) {
+      ndfs.getAttachment(args.category, args.content, args.attachment, function (file, extension) {
           if (file !== undefined) {
             response.write(file, 'binary');
             response.end();
@@ -163,14 +163,14 @@ var server = http.createServer(function (request, response) {
       return;
   }
 
-  // pathSturct A: Check user paths
+  // pathSturct A: Check category paths
   if (!ndfs.existsUserSync(pathSturct[0])) {
     _redirect(response, 'home');
     return;
   }
 
-  // User path exists
-  // pathSturct B: Check preserved user paths
+  // Category path exists
+  // pathSturct B: Check preserved category paths
   switch (pathSturct[1]) {
     case '':
     case null:
@@ -178,13 +178,13 @@ var server = http.createServer(function (request, response) {
     case 'home':
     case 'index':
     case 'default':
-      _redirect(response, 'user', { user: pathSturct[0] });
+      _redirect(response, 'category', { category: pathSturct[0] });
       return;
   }
 
   // pathSturct B: Check content paths
   if (!ndfs.existsContentSync(pathSturct[0], pathSturct[1])) {
-    _redirect(response, 'user', { user: pathSturct[0] });
+    _redirect(response, 'category', { category: pathSturct[0] });
     return;
   }
 
@@ -198,18 +198,18 @@ var server = http.createServer(function (request, response) {
     case 'index':
     case 'default':
     case 'view':
-      _redirect(response, 'content', { user: pathSturct[0], content: pathSturct[1] });
+      _redirect(response, 'content', { category: pathSturct[0], content: pathSturct[1] });
       return;
   }
 
   // pathSturct C: Check attachment paths
   if (!ndfs.existsAttachmentSync(pathSturct[0], pathSturct[1], pathSturct[2])) {
-    _redirect(response, 'content', { user: pathSturct[0], content: pathSturct[1] });
+    _redirect(response, 'content', { category: pathSturct[0], content: pathSturct[1] });
     return;
   }
 
   // Attachment path exists
-  _redirect(response, 'attachment', { user: pathSturct[0], content: pathSturct[1], attachment: pathSturct[2] });
+  _redirect(response, 'attachment', { category: pathSturct[0], content: pathSturct[1], attachment: pathSturct[2] });
   return;
 });
 
