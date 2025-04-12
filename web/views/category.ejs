@@ -35,15 +35,18 @@
   </div>
 
   <!-- Main Content -->
-  <div class="container">
+  <div class="container" style="min-height: 600px;">
     <!-- Content List -->
-    <h1 class="page-header"><%= category %>'s Contents</h1>
+    <h1 class="page-header"><%= category %></h1>
     <div class="list-group">
       <% for (var content in contents) { %>
       <a class="list-group-item" href="/<%= encodeURIComponent(category) %>/<%= encodeURIComponent(content) %>/"><%= content %></a>
       <% } %>
     </div>
   </div>
+
+  <!-- Footer -->
+  <% include component-footer %>
 
 </body>
 
