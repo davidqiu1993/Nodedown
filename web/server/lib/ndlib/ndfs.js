@@ -678,7 +678,7 @@ ndfs.getAttachments = function (category, content, callback) {
 /**
  * @param name Name of the view.
  * @param callback The callback function when view file achieved.
- *                 Its form is "function (view)", where view is a
+ *                 Its form is "function (view, filename)", where view is a
  *                 string of the view template content.
  *
  * @brief
@@ -714,7 +714,7 @@ ndfs.getView = function (name, callback) {
     }
 
     // Run the callback function
-    callback(data);
+    callback(data, viewpath);
   });
 }
 

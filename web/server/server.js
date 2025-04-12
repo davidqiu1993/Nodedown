@@ -34,8 +34,8 @@ function _redirect(response, name, args) {
 
     case 'home':
       ndfs.getUsers(function (categories) {
-        ndfs.getView('home', function (view) {
-          var params = { categories: categories };
+        ndfs.getView('home', function (view, filename) {
+          var params = { categories: categories, filename: filename };
           var html = ejs.render(view, params);
           response.writeHead(200, {'Content-Type': 'text/html'});
           response.end(html);
@@ -45,8 +45,8 @@ function _redirect(response, name, args) {
 
     case 'category':
       ndfs.getContents(args.category, function (contents) {
-        ndfs.getView('category', function (view) {
-          var params = { category: args.category, contents: contents };
+        ndfs.getView('category', function (view, filename) {
+          var params = { category: args.category, contents: contents, filename: filename };
           var html = ejs.render(view, params);
           response.writeHead(200, {'Content-Type': 'text/html'});
           response.end(html);
@@ -63,9 +63,9 @@ function _redirect(response, name, args) {
           var mdcontent = marked(text.toString());
 
           // Obtain view template
-          ndfs.getView('content', function (view) {
+          ndfs.getView('content', function (view, filename) {
             // Render the view
-            var params = { category: args.category, content: args.content, mdcontent: mdcontent, attachments: attachments };
+            var params = { category: args.category, content: args.content, mdcontent: mdcontent, attachments: attachments, filename: filename };
             var html = ejs.render(view, params);
 
             // Response
